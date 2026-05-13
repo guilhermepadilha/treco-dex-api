@@ -120,7 +120,7 @@ Represents temporary out-of-place context.
 
 - ObjectSpecies → Habitat (many-to-one via primaryHabitatId)
 - ObjectSpecies → Environment (many-to-one via environmentId)
-- Habitat → Environment (many-to-one)
+- Habitat → Environment (many-to-one via environmentId)
 - Observation → ObjectSpecies (many-to-one)
 - ObjectStateRecord → ObjectSpecies (many-to-one)
 - MediaAsset → ObjectSpecies / Habitat (optional many-to-one)
@@ -138,4 +138,5 @@ Represents temporary out-of-place context.
 - The MVP treats catalog entries as species-like records; physical duplicates are represented by the same ObjectSpecies entry.
 - Temporary or out-of-place metadata is captured as user-provided observations rather than multiple habitat assignments.
 - The model preserves user-driven state declarations rather than deriving states automatically.
+- Habitats are explicitly attached to Environments, and objects can be contextualized by both their primary habitat and their environment.
 - AuditEvent and Observation records provide the traceability demanded by the constitution.

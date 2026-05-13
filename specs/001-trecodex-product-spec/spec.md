@@ -155,6 +155,8 @@ Objetos possuem:
 - observações;
 - mídia associada.
 
+No escopo deste backend, o conceito de usuário é exposto como `Object`, enquanto a implementação técnica usa `ObjectSpecies` como a entidade de catálogo que mantém metadados, habitat e contexto de estado.
+
 ---
 
 ## Habitat
@@ -223,6 +225,7 @@ Ambientes agrupam habitats relacionados.
 
 - Objetos pertencem a habitats;
 - Habitats pertencem a ambientes;
+- Objetos podem pertencer a ambientes diretamente ou via seu habitat principal;
 - Objetos podem possuir múltiplas observações;
 - Objetos podem mudar de estado ao longo do tempo;
 - Objetos podem possuir múltiplos registros visuais;
@@ -655,11 +658,12 @@ As a user building better habits, I want intelligent recommendations for habitat
 
 ## Measurable Outcomes
 
-- **SC-001**: Users can register a new object in under 30 seconds with minimal required information
-- **SC-002**: Users can locate any registered object within 10 seconds of searching
-- **SC-003**: System maintains 99% accuracy in object state tracking based on user observations
-- **SC-004**: System provides relevant search results for 90% of queries within 2 seconds
+- **SC-001**: Users can register a new object in under 30 seconds with minimal required information.
+- **SC-002**: Users can locate any registered object within 10 seconds of searching, measured by integration tests against representative catalog and habitat data.
+- **SC-003**: System maintains 99% accuracy in object state tracking based on user observations, validated by automated state transition tests that compare expected state against observed activity.
+- **SC-004**: System provides relevant search results for 90% of queries within 2 seconds, measured by end-to-end search test cases covering name, habitat, state, and observation filters.
 
+These success criteria must be supported by integration-level validation and are associated with tasks `T049` and `T050`.
 
 ## Assumptions
 
@@ -668,5 +672,6 @@ As a user building better habits, I want intelligent recommendations for habitat
 - Users are willing to provide minimal information initially with progressive enrichment
 - Visual media (photos) can be captured using device cameras
 - System will start with single-user support, expanding to multi-user later
+- Authentication is required for backend access; multi-user sharing is a future evolution beyond the MVP.
 - English and Portuguese language support is sufficient for initial release
 - No integration with external smart home devices required for MVP

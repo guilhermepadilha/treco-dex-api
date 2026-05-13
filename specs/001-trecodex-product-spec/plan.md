@@ -7,7 +7,7 @@
 
 ## Summary
 
-TrecoDex Backend Platform will be built as a modular monolith with event-driven readiness. The initial implementation focuses on core domain capabilities for object species cataloging, habitat management, observation tracking, search, and authenticated access control, while preserving a clear path for future AI enrichment, async workflows, and mobile offline integration.
+TrecoDex Backend Platform will be built as a modular monolith with event-driven readiness. The initial implementation focuses on core domain capabilities for object species cataloging, habitat management, observation tracking, search, and authenticated access, while preserving a clear path for future AI enrichment, async workflows, and mobile offline integration.
 
 The domain model will explicitly expose `Environment` as a higher-level grouping of habitats, so `Habitat` is modeled as part of the environment/habitat data flow rather than as an isolated location concept.
 
