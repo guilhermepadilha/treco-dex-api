@@ -10,7 +10,8 @@
   *Clarified: Objects are treated as species (like Pokédex), grouped by type (e.g., "PILHA" for all AA/AAAA batteries), with optional differentiation by size for user description, but cataloged as shared type.*
 - [x] CHK002 - Are habitat cardinality and prioritization rules explicit for primary, alternative, and temporary habitats? [Completeness, Spec §Habitat Rules]  
   *Clarified: Only one primary habitat per object (where it should be stored). Temporary habitats are "refuges" (e.g., where user leaves it out of place), optional and user-informed. No multiple habitats.*
-- [ ] CHK003 - Is observation granularity specified, including whether observations are manual, automatic, and how history retention should be handled? [Gap, Spec §Observation Rules]
+- [x] CHK003 - Is observation granularity specified, including whether observations are manual, automatic, and how history retention should be handled? [Gap, Spec §Observation Rules]
+  *Clarified: Observations are manual only (user-provided). Each observation must possess temporal context, enable traceability, enrich organizational context, and support future recovery. History is retained; no automatic pruning specified in MVP.*
 - [x] CHK004 - Are state transition criteria defined for when an object becomes "desaparecido", "fora do habitat", and how inferred state changes occur? [Gap, Spec §State Rules]  
   *Clarified: States are user-informed only (no automatic transitions). User declares "desaparecido" or "recentemente avistado". System may ask once daily if found, and confirm if stored in habitat.*
 - [x] CHK005 - Is the boundary between optional intelligent assistance and mandatory user control clearly defined? [Clarity, Spec §Intelligent Assistance Rules]  
@@ -48,7 +49,8 @@
 
 - [x] CHK017 - Are success criteria measurable and linked to the core MVP outcomes rather than future advanced features? [Measurability, Spec §Success Criteria]  
   *Deferred features like advanced search relevance excluded.*
-- [ ] CHK018 - Are the acceptance scenarios explicit about how the system should behave when required data is missing or incomplete? [Clarity, Spec §User Scenarios]
+- [x] CHK018 - Are the acceptance scenarios explicit about how the system should behave when required data is missing or incomplete? [Clarity, Spec §User Scenarios]
+  *Clarified: Object can be registered without habitat (system allows but suggests assignment). Search without results shows helpful suggestions or related objects. Conflicting observations maintain history and flag for user review.*
 
 ## Scenario Coverage
 
@@ -60,12 +62,15 @@
 
 - [x] CHK022 - Is there a requirement for handling multiple indistinguishable units of the same object type? [Edge Case, Spec §Domain Concepts]  
   *See CHK001 clarification.*
-- [ ] CHK023 - Is fallback behavior specified when visual media is unavailable or when user-provided media exceeds expected limits? [Edge Case, Gap]
-- [ ] CHK024 - Is the outcome defined for search queries that return no results, including guidance or suggestions to the user? [Edge Case, Spec §Edge Cases]
+- [x] CHK023 - Is fallback behavior specified when visual media is unavailable or when user-provided media exceeds expected limits? [Edge Case, Gap]
+  *Clarified: Visual media (photos) is optional for object registration; system does not require media. If media is unavailable, object remains searchable by name, habitat, state, and observations. Media limits (size, format) are deferred to implementation; MVP accepts standard formats (JPEG, PNG) up to reasonable sizes.*
+- [x] CHK024 - Is the outcome defined for search queries that return no results, including guidance or suggestions to the user? [Edge Case, Spec §Edge Cases]
+  *Clarified: When search returns no results, system shows helpful suggestions (related objects by category, recent items, or habitats with similar names). User is prompted to refine search or register a new object.*
 
 ## Non-Functional Requirements
 
-- [ ] CHK025 - Are traceability and predictability requirements expressed with clear expectations rather than high-level statements? [Clarity, Spec §Functional Quality Criteria]
+- [x] CHK025 - Are traceability and predictability requirements expressed with clear expectations rather than high-level statements? [Clarity, Spec §Functional Quality Criteria]
+  *Clarified: Traceability means relevant changes (movements, state changes, observations, organizational history) are recordable and retrievable with context. Predictability means search results and system behavior are consistent and understandable to the user (no surprise state changes or hidden automations). Both are measurable via test cases and user acceptance.*
 - [x] CHK026 - Are safety boundaries for humor and automation captured as explicit non-functional requirements rather than general aspirations? [Non-Functional Requirements, Spec §Humor Rules / Controlled Automation]  
   *See CHK005 and CHK006 clarifications.*
 

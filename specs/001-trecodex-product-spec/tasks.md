@@ -7,11 +7,11 @@
 
 **Purpose**: Initialize backend structure, build configuration, and local runtimes.
 
-- [ ] T001 Create backend module layout in `backend/` with `build.gradle.kts`, `settings.gradle.kts`, `src/`, and `docker/`
-- [ ] T002 Configure Gradle Kotlin DSL build files in `backend/build.gradle.kts` and `backend/settings.gradle.kts` with Spring Boot dependencies
-- [ ] T003 [P] Create package structure under `backend/src/main/java/com/trecodex/` for `api/`, `application/`, `domain/`, and `infrastructure/`
-- [ ] T004 [P] Add `backend/src/main/resources/application.yaml` and initial migration folder `backend/src/main/resources/db/migrations/`
-- [ ] T005 [P] Create local container bootstrap files in `backend/docker/Dockerfile` and `backend/docker/docker-compose.yml`
+- [x] T001 Create backend module layout in `backend/` with `build.gradle.kts`, `settings.gradle.kts`, `src/`, and `docker/`
+- [x] T002 Configure Gradle Kotlin DSL build files in `backend/build.gradle.kts` and `backend/settings.gradle.kts` with Spring Boot dependencies
+- [x] T003 [P] Create package structure under `backend/src/main/java/com/trecodex/` for `api/`, `application/`, `domain/`, and `infrastructure/`
+- [x] T004 [P] Add `backend/src/main/resources/application.yaml` and initial migration folder `backend/src/main/resources/db/migrations/`
+- [x] T005 [P] Create local container bootstrap files in `backend/docker/Dockerfile` and `backend/docker/docker-compose.yml`
 
 ---
 
