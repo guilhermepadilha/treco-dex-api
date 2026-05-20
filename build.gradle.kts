@@ -4,10 +4,16 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
+    checkstyle
 }
 
 group = "com.treco.dex.api"
 version = "0.1.0-SNAPSHOT"
+
+checkstyle {
+    toolVersion = "10.12.5"
+    isIgnoreFailures = true
+}
 
 repositories {
     mavenCentral()

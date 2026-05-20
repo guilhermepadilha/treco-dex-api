@@ -111,7 +111,7 @@
 **Purpose**: Harden the MVP with documentation, testing, validation, and security.
 
 - [x] T043 [P] Document REST APIs and contracts in `specs/001-treco-dex-api-product-spec/contracts/api-contract.md`
-- [ ] T043a [P] Configure Gradle Checkstyle and KtLint plugins for static analysis validation in `backend/build.gradle.kts`
+- [x] T043a [P] Configure Gradle Checkstyle and KtLint plugins for static analysis validation in `backend/build.gradle.kts`
 - [x] T044 [P] Add runtime validation for request and response payloads in `backend/src/main/java/com/treco-dex-api/api/validation/`
 - [x] T045 [P] Add structured JSON logs and metrics instrumentation in `backend/src/main/java/com/treco-dex-api/infrastructure/telemetry/`
 - [x] T046 [P] Implement rate limiting and audit event logging for critical endpoints in `backend/src/main/java/com/treco-dex-api/api/security/`
