@@ -1,0 +1,26 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:tc:postgresql:15-alpine:///treco_dex_api_test
+    username: treco_dex_api
+    password: treco_dex_api
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  h2:
+    console:
+      enabled: true
+  redis:
+    host: localhost
+    port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+
+server:
+  port: 0
+
+logging:
+  level:
+    root: INFO
+    com.treco.dex.api: DEBUG
