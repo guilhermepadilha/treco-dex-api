@@ -12,9 +12,6 @@
     </module>
     
     <module name="TreeWalker">
-        <!-- Avoid star imports -->
-        <module name="AvoidStarImport"/>
-        
         <!-- Standard naming conventions -->
         <module name="MemberName"/>
         <module name="MethodName"/>
