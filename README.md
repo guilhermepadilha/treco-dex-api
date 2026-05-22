@@ -118,3 +118,11 @@ A documentação OpenAPI/Swagger completa das rotas está descrita no arquivo [a
 *   `POST /api/objects/recommend` - Recomendação híbrida inteligente de habitat ideal para o treco
 *   `POST /api/objects/visual-search` - Detecção de objeto e checagem factual por envio de imagem
 *   `GET /api/search` - Busca semântica e filtrada de objetos no catálogo
+
+---
+
+## License
+
+This project is licensed under the Apache License 2.0.
+
+Copyright (c) 2026 Guilherme Santos Padilha
