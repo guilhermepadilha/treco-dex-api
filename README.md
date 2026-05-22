@@ -5,7 +5,7 @@
 [![Spring Boot](https://img.shields.io/badge/spring--boot-3.2.3-green.svg)](https://spring.io/projects/spring-boot)
 [![Linter](https://img.shields.io/badge/checkstyle-passing-success.svg)](#)
 
-O **TrecoDex API** é o cérebro backend da aplicação **TrecoDex** (a "Pokédex" para organização e catalogação de objetos domésticos). Projetado com base nos princípios do *Domain-Driven Design (DDD)* e em uma arquitetura moderna e reativa, o sistema ajuda usuários a catalogar seus trecos, monitorar estados, gerenciar habitats de forma factual e inteligente por meio de inteligência artificial multimodal (visão e linguagem).
+O **TrecoDex API** é o cérebro backend da aplicação **TrecoDex** (a "Pokédex" para organização e catalogação de objetos domésticos). Projetado com base nos princípios do *Domain-Driven Design (DDD)* e em uma arquitetura moderna e reativa, o sistema trabalha em conjunto com o aplicativo móvel [TrecoDex Mobile](https://github.com/guilhermepadilha/treco-dex-mobile) para ajudar usuários a catalogar seus trecos, monitorar estados e gerenciar habitats de forma factual e inteligente por meio de inteligência artificial multimodal (visão e linguagem).
 
 ---
 
