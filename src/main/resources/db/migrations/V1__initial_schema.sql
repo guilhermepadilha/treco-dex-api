@@ -1,5 +1,5 @@
- Enable pgvector extension for future AI embeddings
-CREATE EXTENSION IF NOT EXISTS pgvector;
+-- Enable pgvector extension for future AI embeddings
+CREATE EXTENSION IF NOT EXISTS vector;
 
 -- User Account
 CREATE TABLE user_account (
