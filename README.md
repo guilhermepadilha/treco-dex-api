@@ -83,10 +83,24 @@ docker-compose -f docker/docker-compose.yml up -d
 ```
 
 ### 2. Compilar e Iniciar a Aplicação
-Compile o projeto e inicie o Spring Boot:
+Compile o projeto e inicie o Spring Boot definindo o JDK correto e carregando as variáveis do arquivo `.env`:
+
 ```bash
+# 1️⃣ Seleciona o JDK 21 via SDKMAN (garante que o Gradle use Java 21)
+sdk use java 21.0.2-open   # ajuste a versão exata que você tem instalada
+
+# 2️⃣ Exporta todas as variáveis definidas no .env
+export $(grep -v '^#' .env | xargs)
+
+# 3️⃣ Executa o Spring Boot
 ./gradlew bootRun
 ```
+
+Ou em linha única:
+```bash
+sdk use java 21.0.2-open && export $(grep -v '^#' .env | xargs) && ./gradlew bootRun
+```
+
 A API estará disponível em `http://localhost:8080/api`.
 
 ---
