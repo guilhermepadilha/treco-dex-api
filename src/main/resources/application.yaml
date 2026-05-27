@@ -75,6 +75,9 @@ app:
   ai:
     base-url: ${AI_BASE_URL:https://openrouter.ai/api/v1}
     api-key: ${AI_API_KEY:demo}
-    model-name: ${AI_MODEL_NAME:meta-llama/llama-3-8b-instruct:free}
+    model-name: ${AI_MODEL_NAME:idia/nemotron-3-nano-omni-30b-a3b-reasoning:free}
+    fallback-model: ${AI_MODEL_FALLBACK:nvidia/nemotron-nano-12b-v2-vl:free}
     http-referer: ${AI_HTTP_REFERER:https://trecodex.com}
     x-title: ${AI_X_TITLE:TrecoDex API}
+
+

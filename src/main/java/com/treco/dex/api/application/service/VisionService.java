@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,6 +30,16 @@ public class VisionService {
 
     @Value("${app.ai.api-key}")
     private String apiKey;
+    @Value("${app.ai.model-name}")
+    private String modelName;
+    @Value("${app.ai.fallback-model}")
+    private String fallbackModelName;
+    @Value("${app.ai.base-url:https://openrouter.ai/api/v1}")
+    private String baseUrl;
+    @Value("${app.ai.http-referer:https://trecodex.com}")
+    private String httpReferer;
+    @Value("${app.ai.x-title:TrecoDex API}")
+    private String xTitle;
 
     public VisionService(
             ChatLanguageModel chatLanguageModel,
@@ -40,6 +52,7 @@ public class VisionService {
         this.recommendationService = recommendationService;
     }
 
+    @Transactional
     public VisualSearchResponse searchByImage(byte[] imageBytes, UUID userId) {
         log.info("[{}] Received image for visual search ({} bytes)", userId, imageBytes.length);
 
@@ -47,7 +60,7 @@ public class VisionService {
         // 1. If key is "demo" or missing, use a deterministic stub for local testing / testcontainers compatibility
         if ("demo".equalsIgnoreCase(apiKey) || apiKey == null || apiKey.isEmpty()) {
             log.info("[{}] AI key is demo or empty. Running in stub mode.", userId);
-            objectName = "escorredor de massa";
+            objectName = "escorredor de massa [demo]"; // marker indicating demo mode
         } else {
             try {
                 String base64Image = Base64.getEncoder().encodeToString(imageBytes);
@@ -55,13 +68,42 @@ public class VisionService {
                         TextContent.from("Identify the primary domestic object in this image. Respond ONLY with the single clean object name in Portuguese (e.g. 'escorredor de massa', 'caneca', 'controle remoto', 'garrafa')."),
                         ImageContent.from(base64Image, "image/png")
                 );
-                log.info("[{}] Sending multimodal request to LLM...", userId);
+                log.info("[{}] Sending multimodal request to LLM (model: {} )...", userId, modelName);
                 Response<AiMessage> response = chatLanguageModel.generate(userMessage);
                 objectName = response.content().text().trim().toLowerCase();
-                log.info("[{}] LLM identified object: '{}'", userId, objectName);
-            } catch (Exception e) {
-                log.error("[{}] Vision LLM inference failed. Falling back to stub identification.", userId, e);
-                objectName = "escorredor de massa";
+                log.info("[{}] LLM identified object: '{}' using model {}", userId, objectName, modelName);
+            } catch (Exception primaryEx) {
+                log.warn("[{}] Primary model {} failed: {}", userId, modelName, primaryEx.getMessage());
+                if (fallbackModelName != null && !fallbackModelName.isBlank()) {
+                    log.info("[{}] Trying fallback model {}...", userId, fallbackModelName);
+                    try {
+                        dev.langchain4j.model.openai.OpenAiChatModel fallbackModel = dev.langchain4j.model.openai.OpenAiChatModel.builder()
+                                .apiKey(apiKey)
+                                .baseUrl(baseUrl)
+                                .modelName(fallbackModelName)
+                                .temperature(0.3)
+                                .timeout(java.time.Duration.ofSeconds(20))
+                                .customHeaders(java.util.Map.of(
+                                        "HTTP-Referer", httpReferer,
+                                        "X-Title", xTitle
+                                ))
+                                .build();
+                        
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        UserMessage userMessage = UserMessage.from(
+                                TextContent.from("Identify the primary domestic object in this image. Respond ONLY with the single clean object name in Portuguese (e.g. 'escorredor de massa', 'caneca', 'controle remoto', 'garrafa')."),
+                                ImageContent.from(base64Image, "image/png")
+                        );
+                        Response<AiMessage> response = fallbackModel.generate(userMessage);
+                        objectName = response.content().text().trim().toLowerCase();
+                        log.info("[{}] Fallback model {} successfully identified object: '{}'", userId, fallbackModelName, objectName);
+                    } catch (Exception fallbackEx) {
+                        log.error("[{}] Fallback model {} failed too: {}", userId, fallbackModelName, fallbackEx.getMessage());
+                        objectName = "escorredor de massa [demo]";
+                    }
+                } else {
+                    objectName = "escorredor de massa [demo]";
+                }
             }
         }
 
@@ -75,7 +117,7 @@ public class VisionService {
                     .identified(true)
                     .objectName(objectName)
                     .habitatName(habitatName)
-                    .reasoning("Este é o [" + objectName + "]! Ele vive quentinho e seguro na [" + habitatName + "]. Embora sinta saudades do espaguete de domingo, ele adora a vibração da centrífuga!")
+                    .reasoning("Este é o [" + objectName + "]! Ele vive quentinho e seguro na [" + habitatName + "]. Embora sinta saudades do espaguete de domingo, ele adora a vibração da centrífuga! [demo]")
                     .build();
         }
 

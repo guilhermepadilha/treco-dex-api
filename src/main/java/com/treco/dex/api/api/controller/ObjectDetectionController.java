@@ -3,6 +3,7 @@ package com.treco.dex.api.api.controller;
 import com.treco.dex.api.api.dto.VisualSearchResponse;
 import com.treco.dex.api.application.service.VisionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +23,21 @@ public class ObjectDetectionController {
         this.visionService = visionService;
     }
 
-    @PostMapping("/visual-search")
+    @PostMapping(value = "/visual-search", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<VisualSearchResponse> visualSearch(
-            @RequestParam("file") MultipartFile file,
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "image", required = false) MultipartFile image,
             Authentication authentication) throws IOException {
         UUID userId = UUID.fromString(authentication.getName());
-        log.info("[{}] Visual search endpoint invoked with file: {}", userId, file.getOriginalFilename());
+        MultipartFile activeFile = file != null ? file : image;
+        if (activeFile == null) {
+            log.error("[{}] Missing both 'file' and 'image' parts in multipart request", userId);
+            throw new IllegalArgumentException("Required request part 'file' or 'image' is not present");
+        }
         
-        byte[] imageBytes = file.getBytes();
+        log.info("[{}] Visual search endpoint invoked with file: {}", userId, activeFile.getOriginalFilename());
+        
+        byte[] imageBytes = activeFile.getBytes();
         VisualSearchResponse response = visionService.searchByImage(imageBytes, userId);
         return ResponseEntity.ok(response);
     }
