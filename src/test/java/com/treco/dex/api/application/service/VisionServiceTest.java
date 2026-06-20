@@ -48,16 +48,16 @@ public class VisionServiceTest {
     }
 
     @Test
-    void testSearchByImage_FactualMatch() {
+    void testSearchByImageFactualMatch() {
         // Given
         byte[] mockBytes = new byte[]{1, 2, 3};
         Habitat habitat = Habitat.builder().name("Segunda Gaveta").build();
         ObjectSpecies species = ObjectSpecies.builder()
-                .name("escorredor de massa")
+                .name("escorredor de massa [demo]")
                 .primaryHabitat(habitat)
                 .build();
 
-        when(objectSpeciesRepository.findByOwnerIdAndName(userId, "escorredor de massa"))
+        when(objectSpeciesRepository.findByOwnerIdAndName(userId, "escorredor de massa [demo]"))
                 .thenReturn(Optional.of(species));
 
         // When
@@ -65,16 +65,16 @@ public class VisionServiceTest {
 
         // Then
         assertTrue(response.isIdentified());
-        assertEquals("escorredor de massa", response.getObjectName());
+        assertEquals("escorredor de massa [demo]", response.getObjectName());
         assertEquals("Segunda Gaveta", response.getHabitatName());
         verifyNoInteractions(conversationStateService);
     }
 
     @Test
-    void testSearchByImage_NoFactualMatch_InitializesRedisState() {
+    void testSearchByImageNoFactualMatchInitializesRedisState() {
         // Given
         byte[] mockBytes = new byte[]{1, 2, 3};
-        when(objectSpeciesRepository.findByOwnerIdAndName(userId, "escorredor de massa"))
+        when(objectSpeciesRepository.findByOwnerIdAndName(userId, "escorredor de massa [demo]"))
                 .thenReturn(Optional.empty());
 
         // When
@@ -82,9 +82,9 @@ public class VisionServiceTest {
 
         // Then
         assertFalse(response.isIdentified());
-        assertEquals("escorredor de massa", response.getObjectName());
+        assertEquals("escorredor de massa [demo]", response.getObjectName());
         assertEquals(userId.toString(), response.getSessionId());
-        assertTrue(response.getMessage().contains("Isso é um escorredor de massa?"));
+        assertTrue(response.getMessage().contains("Isso é um escorredor de massa [demo]?"));
         
         verify(conversationStateService, times(1)).saveSession(eq(userId.toString()), any(ConversationSession.class));
     }

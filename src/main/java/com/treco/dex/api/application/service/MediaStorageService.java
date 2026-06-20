@@ -26,6 +26,9 @@ public class MediaStorageService {
     @Autowired
     private ObjectSpeciesRepository objectSpeciesRepository;
 
+    @Autowired
+    private CloudStorageProvider cloudStorageProvider;
+
     @Transactional
     public MediaAssetResponse uploadMediaAsset(UUID objectSpeciesId, CreateMediaAssetRequest request, UUID userId) {
         log.info("[{}] Uploading media asset for object: {}", userId, objectSpeciesId);
@@ -37,10 +40,22 @@ public class MediaStorageService {
             throw new IllegalArgumentException("Unauthorized access to object species");
         }
 
+        // Determine file extension from media type
+        String extension = ".bin";
+        if (request.getMediaType() != null) {
+            if (request.getMediaType().contains("jpeg") || request.getMediaType().contains("jpg")) extension = ".jpg";
+            else if (request.getMediaType().contains("png")) extension = ".png";
+            else if (request.getMediaType().contains("gif")) extension = ".gif";
+            else if (request.getMediaType().contains("webp")) extension = ".webp";
+        }
+        
+        String fileName = UUID.randomUUID().toString() + extension;
+        String uploadedUrl = cloudStorageProvider.uploadBase64Image(request.getUrl(), fileName, request.getMediaType());
+
         MediaAsset mediaAsset = MediaAsset.builder()
                 .objectSpecies(objectSpecies)
                 .uploadedBy(UserAccount.builder().id(userId).build())
-                .url(request.getUrl())
+                .url(uploadedUrl)
                 .mediaType(request.getMediaType())
                 .build();
 
@@ -73,6 +88,7 @@ public class MediaStorageService {
             throw new IllegalArgumentException("Unauthorized access to media asset");
         }
 
+        cloudStorageProvider.deleteImage(mediaAsset.getUrl());
         mediaAssetRepository.delete(mediaAsset);
         log.info("[{}] Media asset deleted: {}", userId, mediaAssetId);
     }

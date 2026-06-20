@@ -26,9 +26,16 @@
 
 - [x] All functional requirements have clear acceptance criteria
 - [x] User scenarios cover primary flows
-- [x] Feature meets measurable outcomes defined in Success Criteria
+- [ ] Feature meets measurable outcomes defined in Success Criteria (Backend implementation complete; pending mobile integration)
 - [x] No implementation details leak into specification
+
+## Integration & Alignment Status (Loose Ends)
+
+- [ ] Mobile client store (`useChatOnboarding.ts`) is aligned with backend state machine steps.
+- [ ] Mobile client routes chat inputs to the backend endpoint instead of local mock questionnaire logic.
+- [x] Backend endpoint `/api/objects/chat-onboarding` is fully implemented to parse combined natural language inputs.
+- [x] Photo assets uploaded during visual search are persisted and associated with finalized objects.
 
 ## Notes
 
-- Feature spec is 100% complete and ready for planning!
+- **Status**: INCOMPLETE. The implementation is blocked by integration alignment gaps between the mobile client and backend. See `tasks.md` in both repositories for the actionable task lists.

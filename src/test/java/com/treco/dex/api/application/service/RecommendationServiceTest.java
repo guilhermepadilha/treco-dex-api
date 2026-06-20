@@ -39,7 +39,7 @@ public class RecommendationServiceTest {
     }
 
     @Test
-    void testRecommend_FactualMatch() {
+    void testRecommendFactualMatch() {
         // Given
         String objectName = "escorredor de massa";
         Habitat habitat = Habitat.builder().id(UUID.randomUUID()).name("Segunda Gaveta").build();
@@ -61,7 +61,7 @@ public class RecommendationServiceTest {
     }
 
     @Test
-    void testRecommend_LLMCall() {
+    void testRecommendLlmCall() {
         // Given
         String objectName = "caneca";
         when(objectSpeciesRepository.findByOwnerIdAndName(userId, objectName))
@@ -80,7 +80,7 @@ public class RecommendationServiceTest {
     }
 
     @Test
-    void testRecommend_GracefulFallback() {
+    void testRecommendGracefulFallback() {
         // Given
         String objectName = "faca de churrasco";
         when(objectSpeciesRepository.findByOwnerIdAndName(userId, objectName))

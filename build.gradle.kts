@@ -71,6 +71,9 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-open-ai:0.31.0")
     implementation("dev.langchain4j:langchain4j:0.31.0")
     
+    // Cloud Storage
+    implementation("software.amazon.awssdk:s3:2.25.11")
+
     // Utilities
     implementation("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
@@ -78,8 +81,8 @@ dependencies {
     // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("org.testcontainers:testcontainers:1.19.7")
-    testImplementation("org.testcontainers:postgresql:1.19.7")
+    testImplementation("org.testcontainers:testcontainers:1.20.0")
+    testImplementation("org.testcontainers:postgresql:1.20.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
 }
 

@@ -25,7 +25,7 @@ public class ConversationStateService {
         try {
             String json = objectMapper.writeValueAsString(session);
             redisTemplate.opsForValue().set(key, json, 30, TimeUnit.MINUTES);
-            log.info("Saved conversation session for user {}: {}", userId, json);
+            log.info("Saved conversation session for user {}. Step: {}", userId, session.getStep());
         } catch (Exception e) {
             log.error("Failed to serialize conversation session for user {}", userId, e);
         }

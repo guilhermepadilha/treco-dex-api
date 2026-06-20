@@ -1,5 +1,6 @@
 package com.treco.dex.api.api.config;
 
+import com.treco.dex.api.application.service.ConversationAgent;
 import com.treco.dex.api.application.service.RecommendationAiClient;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -35,7 +36,9 @@ public class AiConfig {
                 .baseUrl(baseUrl)
                 .modelName(modelName)
                 .temperature(0.3)
-                .timeout(Duration.ofSeconds(20))
+                .maxTokens(4000)
+                .responseFormat("json_object")
+                .timeout(Duration.ofSeconds(60))
                 .customHeaders(Map.of(
                         "HTTP-Referer", httpReferer,
                         "X-Title", xTitle
@@ -46,6 +49,13 @@ public class AiConfig {
     @Bean
     public RecommendationAiClient recommendationAiClient(ChatLanguageModel chatLanguageModel) {
         return dev.langchain4j.service.AiServices.builder(RecommendationAiClient.class)
+                .chatLanguageModel(chatLanguageModel)
+                .build();
+    }
+
+    @Bean
+    public ConversationAgent conversationAgent(ChatLanguageModel chatLanguageModel) {
+        return dev.langchain4j.service.AiServices.builder(ConversationAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .build();
     }

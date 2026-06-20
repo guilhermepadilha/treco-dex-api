@@ -26,7 +26,7 @@ public class MediaAsset {
     @JoinColumn(name = "upload_by_id", nullable = false)
     private UserAccount uploadedBy;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String url;
 
     @Column(name = "media_type")

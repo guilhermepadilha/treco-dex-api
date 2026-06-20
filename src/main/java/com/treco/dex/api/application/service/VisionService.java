@@ -124,12 +124,18 @@ public class VisionService {
         // 3. Object NOT found: initialize Redis-based onboarding state machine
         log.info("[{}] Object '{}' not found in database. Initializing Redis session.", userId, objectName);
         
+        // Persist the image as a Base64 data URI for later association
+        String photoDataUri = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes);
+        
         ConversationSession session = ConversationSession.builder()
                 .userId(userId.toString())
                 .step("AWAITING_PHOTO_CONFIRMATION")
                 .objectName(objectName)
-                .objectPhotoUrl("media-stub-url")
+                .objectPhotoUrl(photoDataUri)
                 .build();
+
+        String aiMessage = "Não encontrei esse ser no meu catálogo. Isso é um " + objectName + "?";
+        session.addAiMessage(aiMessage);
         
         conversationStateService.saveSession(userId.toString(), session);
 
@@ -137,7 +143,7 @@ public class VisionService {
                 .identified(false)
                 .objectName(objectName)
                 .sessionId(userId.toString())
-                .message("Não encontrei esse ser no meu catálogo. Isso é um " + objectName + "?")
+                .message(aiMessage)
                 .build();
     }
 }
